@@ -11,7 +11,7 @@ class App extends React.Component {
   constructor(props){
     super(props);
 
-    let bord = [[0,0,0,0,0,0,0,0,0,0,0,0],
+    let initialBoard = [[0,0,0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0,0,0],
@@ -26,7 +26,7 @@ class App extends React.Component {
     ];
 
     this.state = {
-      board: bord,
+      board: initialBoard,
       ws: null
     };
     this.handleClick = this.handleClick.bind(this);
@@ -78,13 +78,13 @@ class App extends React.Component {
     this.setState(calculate(this.state, x, y));
   };
   render(){
-  return (
-    <div className="App">
-      <Board board={this.state.board} clickHandler={this.handleClick} />
-      <br /> 
-      <DisplayButton socket={this.state.ws} board={this.state.board}/>     
-    </div>
-  );
+    return (
+      <div className="App">
+        <Board board={this.state.board} clickHandler={this.handleClick} />
+        <br /> 
+        <DisplayButton socket={this.state.ws} board={this.state.board}/>     
+      </div>
+    );
   }
 
 }

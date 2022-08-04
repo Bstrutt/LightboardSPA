@@ -7,36 +7,36 @@ import DisplayButton from "./DisplayButton";
 
 
 
-class App extends React.Component { 
-  constructor(props){
-    super(props);
+class App extends React.Component {
+    constructor(props) {
+        super(props);
 
-    let initialBoard = [[0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0]
-    ];
+        let initialBoard = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        ];
 
-    this.state = {
-      board: initialBoard,
-      ws: null
-    };
-    this.handleClick = this.handleClick.bind(this);
-  }
-  componentDidMount(){
-    this.connect();
-  }
-  connect = () => {
-    var ws = new WebSocket('wss://lightboard-socketserver.herokuapp.com/')
-    let that = this; // cache the this
+        this.state = {
+            board: initialBoard,
+            ws: null
+        };
+        this.handleClick = this.handleClick.bind(this);
+    }
+    componentDidMount() {
+        this.connect();
+    }
+    connect = () => {
+        var ws = new WebSocket('wss://lightboard-socketserver.herokuapp.com/')
+        let that = this; // cache the this
         var connectInterval;
 
         // websocket onopen event listener
@@ -73,19 +73,19 @@ class App extends React.Component {
 
             ws.close();
         };
-  }
-  handleClick (x,y) {
-    this.setState(calculate(this.state, x, y));
-  };
-  render(){
-    return (
-      <div className="App">
-        <Board board={this.state.board} clickHandler={this.handleClick} />
-        <br /> 
-        <DisplayButton socket={this.state.ws} board={this.state.board}/>     
-      </div>
-    );
-  }
+    }
+    handleClick(x, y) {
+        this.setState(calculate(this.state, x, y));
+    };
+    render() {
+        return (
+            <div className="App">
+                <Board board={this.state.board} clickHandler={this.handleClick} />
+                <br />
+                <DisplayButton socket={this.state.ws} board={this.state.board} />
+            </div>
+        );
+    }
 
 }
 export default App

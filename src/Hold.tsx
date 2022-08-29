@@ -1,16 +1,21 @@
-const Hold: React.FC<{ isAlive: boolean; toggleIsAlive: () => void }> = ({
-  isAlive,
-  toggleIsAlive,
-}) => {
+import { HoldStatusEnum } from "./Enums";
+
+const Hold: React.FC<{
+  holdStatus: HoldStatusEnum;
+  toggleHoldStatus: () => void;
+}> = ({ holdStatus, toggleHoldStatus }) => {
   const handleClick = () => {
-    toggleIsAlive();
+    console.log("clicked");
+    toggleHoldStatus();
   };
   return (
-    <div onMouseOver={handleClick}>
+    <div onClick={handleClick}>
       {/* <p className="bg-green-900 text-2xl text-center text-violet-200 h-8 w-8">
         {isAlive ? "▇" : " "}
       </p> */}
+
       <button className="rounded-full bg-slate-400">test</button>
+      {/* TODO use hold status to update color */}
     </div>
   );
 };

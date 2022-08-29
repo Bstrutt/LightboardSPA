@@ -1,43 +1,38 @@
 import React, { useEffect, useReducer, useState } from "react";
 import { Hold } from "./Hold";
 import _ from "lodash";
-import { getNextGeneration } from "./Board.util";
+import { HoldStatusEnum } from "./Enums";
 
-type GameAction = {
-  type: string;
+type HoldLocation = {
   rowNum: number;
   colNum: number;
 };
 
-function reducer(state: boolean[][], action: GameAction) {
-  const { type, rowNum, colNum } = action;
-  const numRows = state.length;
-  const numCols = state[0].length;
-  let nextGeneration: boolean[][] = Array(numRows)
-    .fill(false)
+function reducer(
+  currentBoardStatus: HoldStatusEnum[][],
+  holdLocation: HoldLocation
+) {
+  const { rowNum, colNum } = holdLocation;
+  const numRows = currentBoardStatus.length;
+  const numCols = currentBoardStatus[0].length;
+  let updatedBoard: HoldStatusEnum[][] = Array(numRows)
+    .fill(HoldStatusEnum.Default)
     .map((_) => {
-      return new Array(numCols).fill(false);
+      return new Array(numCols).fill(HoldStatusEnum.Default);
     });
-  switch (type) {
-    case "toggle":
-      nextGeneration = _.cloneDeep(state);
-      nextGeneration[rowNum][colNum] = !state[rowNum][colNum];
-      return nextGeneration;
-    case "refresh":
-      nextGeneration = getNextGeneration(state);
-      return nextGeneration;
-    default:
-      throw new Error();
-  }
+
+  updatedBoard = _.cloneDeep(currentBoardStatus);
+  // TODO how to loop through an enum? set to next available enum
+  // nextGeneration[rowNum][colNum] = !state[rowNum][colNum];
+  return updatedBoard;
 }
 
-const Board: React.FC<{ dimension: number; lifespan: number }> = ({
-  dimension,
-  lifespan,
+const Board: React.FC<{ width: number; height: number }> = ({
+  width,
+  height,
 }) => {
-  const numRows = dimension;
-  const numCols = dimension;
-  let [generationNum, setGenerationNum] = useState(0);
+  const numCols = width;
+  const numRows = height;
 
   // creates next generation
   const [generation, dispatch] = useReducer(
@@ -45,29 +40,19 @@ const Board: React.FC<{ dimension: number; lifespan: number }> = ({
     Array(numRows)
       .fill(0)
       .map((_) => {
-        return new Array(numCols).fill(false);
+        return new Array(numCols).fill(HoldStatusEnum.Default);
       })
   );
-
-  // lifespan interval
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setGenerationNum(generationNum + 1);
-      dispatch({ type: "refresh", rowNum: 0, colNum: 0 });
-    }, lifespan);
-
-    return () => clearInterval(interval);
-  });
 
   return (
     <div>
       {generation.map((row, rowNum) => (
         <div className="flex" key={`row${rowNum}`}>
-          {row.map((isAlive, colNum) => (
+          {row.map((holdStatus, colNum) => (
             <Hold
-              isAlive={isAlive}
-              toggleIsAlive={() =>
-                dispatch({ type: "toggle", rowNum: rowNum, colNum: colNum })
+              holdStatus={holdStatus}
+              toggleHoldStatus={() =>
+                dispatch({ rowNum: rowNum, colNum: colNum })
               }
               key={`row${rowNum}col${colNum}`}
             ></Hold>

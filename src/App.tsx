@@ -42,7 +42,7 @@ function App() {
         </label>
       </div>
 
-      <Board dimension={height} lifespan={width}></Board>
+      <Board width={width} height={height}></Board>
     </div>
   );
 }

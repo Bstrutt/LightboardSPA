@@ -1,25 +1,48 @@
-import React from "react";
-import logo from "./logo.svg";
-import "./index.css";
-import "./App.css";
+import { useState } from "react";
+import { Board } from "./Board";
 
 function App() {
+  const initialWidth = 10;
+  const initialHeight = 10;
+
+  let [width, setWidth] = useState(initialWidth);
+  let [height, setHeight] = useState(initialHeight);
+
+  const widthOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setWidth(parseInt(event.target.value));
+  };
+
+  const heightOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setHeight(parseInt(event.target.value));
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p className="text-pink-700">
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div>
+        <label>
+          Width{" "}
+          <input
+            id="width"
+            name="width"
+            defaultValue={initialWidth}
+            onChange={widthOnChange}
+          />
+        </label>
+      </div>
+
+      <div>
+        <label>
+          Height{" "}
+          <input
+            name="height"
+            id="height"
+            defaultValue={initialHeight}
+            onChange={heightOnChange}
+          />
+        </label>
+      </div>
+
+      <Board dimension={height} lifespan={width}></Board>
     </div>
   );
 }

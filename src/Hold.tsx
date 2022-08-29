@@ -14,7 +14,7 @@ const Hold: React.FC<{
         {isAlive ? "▇" : " "}
       </p> */}
 
-      <button className="rounded-full bg-slate-400">test</button>
+      <button className="rounded-full bg-slate-400 text-xl">test</button>
       {/* TODO use hold status to update color */}
     </div>
   );

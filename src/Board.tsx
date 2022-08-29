@@ -22,8 +22,17 @@ function reducer(
     });
 
   updatedBoard = _.cloneDeep(currentBoardStatus);
+
   // TODO how to loop through an enum? set to next available enum
-  // nextGeneration[rowNum][colNum] = !state[rowNum][colNum];
+
+  // for (let value in HoldStatusEnum) {
+  //   if (isNaN(Number(value))) {
+  //     console.log(value);
+  //     updatedBoard[rowNum][colNum] = value;
+  //     // updatedBoard[rowNum][colNum] = !updatedBoard[rowNum][colNum];
+  //   }
+  // }
+
   return updatedBoard;
 }
 
@@ -47,7 +56,7 @@ const Board: React.FC<{ width: number; height: number }> = ({
   return (
     <div>
       {generation.map((row, rowNum) => (
-        <div className="flex" key={`row${rowNum}`}>
+        <div className="flex space-x-4 space-y-4" key={`row${rowNum}`}>
           {row.map((holdStatus, colNum) => (
             <Hold
               holdStatus={holdStatus}
